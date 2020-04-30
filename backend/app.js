@@ -17,10 +17,12 @@ db.on('error', (err) => {
 });
 
 app.use(express.json());
-const userRoutes = require('./routes/userauth')
-const postRoutes = require('./routes/post')
-app.use('/user', userRoutes);
-app.use('/post', postRoutes);
+const userAuthRoute = require('./routes/userauth')
+const postRoute = require('./routes/post')
+const userRoute = require('./routes/user')
+app.use('/auth', userAuthRoute);
+app.use('/post', postRoute);
+app.use('/user', userRoute);
 
 
 app.listen(PORT, ()=> {
