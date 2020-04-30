@@ -40,7 +40,7 @@ router.put('/likes', (req, res) => {
 })
 
 //unlikes
-router.put('/likes', (req, res) => {
+router.put('/unlikes', (req, res) => {
     Post.findByIdAndUpdate(req.body.postId, {
         $pull:{likes: req.userData._id}
     }, {
@@ -67,6 +67,20 @@ router.get('/allpost', (req, res) => {
             console.log(err);
         });
 })
+
+//view post created by followed user
+router.get('/getsubpost', (req, res) => {
+    Post.find({postedBy: {$in:req.userData.following}})
+        .populate("author","_id name")
+        .exec()
+        .then(posts => {
+            return res.status(200).json({posts})
+        })
+        .catch(err => {
+            console.log(err);
+        });
+})
+
 
 //post created by only signedin user
 router.get('/mypost', (req, res) => {
