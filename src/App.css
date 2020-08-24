@@ -1,3 +1,27 @@
-a {
+    a {
   color: black !important;
+}
+.login-card {
+  margin: 0px 35%;
+  margin-top: 26px;
+}
+.sign-card {
+  margin: 0px 35%;
+  margin-top: 26px;
+}
+.auth-card {
+  text-align: center;
+}
+
+.home-card {
+  max-width: 700px;
+  height: max-content;
+  margin: 26px auto;
+}
+
+.create-field {
+  padding: 100px;
+  max-width: 700px;
+  height: max-content;
+  margin: 26px auto;
 }
