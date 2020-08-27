@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('../models/user.model');
 const Schema = mongoose.Schema;
 const { ObjectId } = mongoose.Schema.Types;
 const postSchema = new Schema({
@@ -7,7 +8,7 @@ const postSchema = new Schema({
     photo: {type: String, default: "no photo"},
     likes: [{type: ObjectId, ref:"User"}],
     comments: [{ text: String, postedBy: [{type: ObjectId, ref: "User"}] }],
-    postedBy: {type: ObjectId, ref: "user"}
+    postedBy: {type: ObjectId, ref: User}
 })
 
 const Post = mongoose.model('Post', postSchema);

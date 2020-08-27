@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Post = require('../models/post.model');
-
+const checkAuth = require('../middleware/check-auth');
 
 //comment
 router.put('/comment', (req, res) => {
@@ -58,7 +58,7 @@ router.put('/unlikes', (req, res) => {
 //view all post
 router.get('/allpost', (req, res) => {
     Post.find()
-        .populate("author","_id name")
+        .populate("postedBy","_id name")
         .exec()
         .then(posts => {
             return res.status(200).json({posts})
@@ -83,9 +83,9 @@ router.get('/getsubpost', (req, res) => {
 
 
 //post created by only signedin user
-router.get('/mypost', (req, res) => {
-    Post.find({author : req.userData._id})
-        .populate("author","_id name")
+router.get('/mypost', checkAuth, (req, res) => {
+    Post.find({postedBy : req.userData.user[0]._id})
+        .populate("postedBy","_id name")
         .exec()
         .then(posts => {
             return res.status(200).json({posts})
@@ -97,14 +97,14 @@ router.get('/mypost', (req, res) => {
 
 
 //create post
-router.post('/createpost', (req,res) => {
+router.post('/createpost', checkAuth, (req,res) => {
     const {title, body} = req.body;
     if(title && body) {
         req.body.password = undefined;
         const post = new Post({
             title,
             body,
-            author: req.userData
+            postedBy: req.userData.user[0]._id
         })
         post.save()
             .then(result => {
