@@ -9,7 +9,7 @@ const SignUp = () => {
     const postData = () => {
         //regex for email validation
 
-        fetch("/signup", {
+        fetch('http://localhost:5000/auth/signup', {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
@@ -19,7 +19,8 @@ const SignUp = () => {
         .then(res => res.json())
         .then(data => {
             //check for error show toast
-            history.push('/signup')
+            console.log('signup successful')
+            history.push('/signin')
         })
         .catch(err => console.log(err))
     }
@@ -34,12 +35,11 @@ const SignUp = () => {
                 <input type="text" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <div className="card-action">
-                {/* <a href="#">SignUp</a> */}
                 <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
                     onClick={() => postData()}> SignUp
                 </button>
                 </div>
-                <Link to="/login">Already have Account?</Link>
+                <Link to="/signin">Already have Account?</Link>
             </div>
         </div>
     );

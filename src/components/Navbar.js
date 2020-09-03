@@ -1,16 +1,40 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import '../App.css'
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
+import { userContext } from '../App';
 const NavBar = () => {
+    const {state, dispatch} = useContext(userContext)
+    const history = useHistory()
+    const renderList = () => {
+        if(state) {
+            return [
+                <li key="1"><Link to="/createpost">CreatePost</Link></li>,
+                <li key="2"><Link to="/profile">Profile </Link></li>,
+                <li key="3">
+                    <button className="btn #c62828 red darken-3"
+                        onClick={() => { 
+                                localStorage.clear()
+                                dispatch({type: "CLEAR"})
+                                history.push('/signin')
+                            }
+                        }
+                    > Logout
+                    </button>
+                </li>
+            ]
+        } else {
+            return [
+                <li key="1"><Link to="/signin">Login </Link></li>,
+                <li key="2"><Link to="/signup">SignUp </Link></li>
+            ]
+        }
+    }
     return (
         <nav>   
           <div className="nav-wrapper white" >
-          <Link to="/home" className="brand-logo">LeMme`Social</Link>
+          <Link to={state?"/":"/signin"} className="brand-logo">LeMme`Social</Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li><Link to="/profile">Profile </Link></li>
-              <li><Link to="/login">Login </Link></li>
-              <li><Link to="/signup">SignUp </Link></li>
-              <li><Link to="/createpost">CreatePost</Link></li>
+              {renderList()}  
           </ul>
           </div>
         </nav>

@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
 require('dotenv').config();
@@ -15,7 +16,7 @@ db.on('connected', () => {
 db.on('error', (err) => {
     console.log('mongo connection err : ',err);
 });
-
+app.use(cors());
 app.use(express.json());
 const userAuthRoute = require('./routes/userauth')
 const postRoute = require('./routes/post')

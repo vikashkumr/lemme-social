@@ -21,8 +21,7 @@ router.post('/signup', (req,res) => {
               });
             } else {
               const user = new User({
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
+                name: req.body.name,
                 email: req.body.email,
                 password: hash,
               });
@@ -67,9 +66,9 @@ router.post('/signin', (req, res) => {
               },process.env.JWT_KEY,{
                 expiresIn: '24h'
               })
+              const {_id, name, email} = user[0]
               return res.status(200).json({
-                message: 'Auth success',
-                token: token
+                token, user:{_id, name, email}
               });
             }
             return res.status(401).json({

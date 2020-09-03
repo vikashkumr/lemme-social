@@ -3,7 +3,7 @@ const Post = require('../models/post.model');
 const checkAuth = require('../middleware/check-auth');
 
 //comment
-router.put('/comment', (req, res) => {
+router.put('/comment', checkAuth, (req, res) => {
     const comment = {
         text: req.body.text,
         postedBy: req.userData._id
@@ -14,6 +14,7 @@ router.put('/comment', (req, res) => {
         new: true
     })
     .populate("comments.postedBy", "_id name")
+    .populate("postedBy", "_id name")
     .exec((err,result) => {
         if(err) {
             return res.status(422).json({ error: err })
@@ -25,7 +26,7 @@ router.put('/comment', (req, res) => {
 
 
 //likes
-router.put('/likes', (req, res) => {
+router.put('/likes', checkAuth, (req, res) => {
     Post.findByIdAndUpdate(req.body.postId, {
         $push:{likes: req.userData._id}
     }, {
@@ -39,6 +40,7 @@ router.put('/likes', (req, res) => {
     })
 })
 
+/*
 //unlikes
 router.put('/unlikes', (req, res) => {
     Post.findByIdAndUpdate(req.body.postId, {
@@ -53,12 +55,14 @@ router.put('/unlikes', (req, res) => {
         }
     })
 })
+*/
 
 
 //view all post
-router.get('/allpost', (req, res) => {
+router.get('/allpost', checkAuth, (req, res) => {
     Post.find()
         .populate("postedBy","_id name")
+        .populate("comments.postedBy","_id name")
         .exec()
         .then(posts => {
             return res.status(200).json({posts})
@@ -84,7 +88,7 @@ router.get('/getsubpost', (req, res) => {
 
 //post created by only signedin user
 router.get('/mypost', checkAuth, (req, res) => {
-    Post.find({postedBy : req.userData.user[0]._id})
+    Post.find({postedBy : req.userData._id})
         .populate("postedBy","_id name")
         .exec()
         .then(posts => {
@@ -98,13 +102,14 @@ router.get('/mypost', checkAuth, (req, res) => {
 
 //create post
 router.post('/createpost', checkAuth, (req,res) => {
-    const {title, body} = req.body;
-    if(title && body) {
+    const {title, body, photo} = req.body;
+    if(title && body && photo) {
         req.body.password = undefined;
         const post = new Post({
             title,
             body,
-            postedBy: req.userData.user[0]._id
+            photo,
+            postedBy: req.userData._id
         })
         post.save()
             .then(result => {
