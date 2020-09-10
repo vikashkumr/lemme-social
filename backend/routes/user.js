@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Post = require('../models/post.model');
 const User = require('../models/user.model');
-
+const checkAuth = require('../middleware/check-auth')
 
 
 //follow 
@@ -47,7 +47,7 @@ router.put('/unfollow', (req, res) => {
 
 
 //get profile of user route
-router.get('/:id', (req, res) => {
+router.get('/:id', checkAuth, (req, res) => {
     User.findOne({_id: req.params.id})
     .select("-password")
     .then(user => {

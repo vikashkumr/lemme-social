@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom'
 require('dotenv').config();
-
+const cloud = process.env.REACT_APP_CLOUD_NAME;
 const CreatePost = () => {
     const history = useHistory()
     const [title, setTitle] = useState("")
@@ -33,9 +33,8 @@ const CreatePost = () => {
         const data = new FormData();
         data.append("file", image)
         data.append("upload_preset", "lemme-social")
-        data.append("cloud_name", process.env.CLOUD_NAME)
-
-        fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`, {
+        data.append("cloud_name", cloud)
+        fetch(`https://api.cloudinary.com/v1_1/${cloud}/image/upload`, {
             method: "post",
             body: data
         })

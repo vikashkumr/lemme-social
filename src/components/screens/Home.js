@@ -76,9 +76,10 @@ const Home = () => {
 
     return (
         <div className="home">
-            {
+            {   
+                (data) ?
                 data.map(item => {
-                    // console.log(item)
+                    console.log(item)
                     return (
                         <div className="card home-card" key="item.postedBy._id">
                             <h5>{item.postedBy.name}</h5>
@@ -114,7 +115,7 @@ const Home = () => {
                             </div>
                         </div>
                     )
-                })
+                }):console.log("create post")
             }
         </div>
     );
