@@ -1,18 +1,18 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {userContext} from '../../App'
 import {Link} from 'react-router-dom'
-const Home = () => {
+const SubscribePost = () => {
     const [data, setData] = useState([])
     const {state, dispatch} = useContext(userContext)
     useEffect(() => {
-        fetch('http://localhost:5000/post/allpost', {
+        fetch('http://localhost:5000/post/getsubpost', {
             headers: {
                 "Authorization": "Bearer "+localStorage.getItem("jwt")
             }
         })
         .then(res => res.json())
         .then(result => {
-            // console.log(result)
+            console.log(result)
             setData(result.posts)
         })
     },[])
@@ -74,12 +74,13 @@ const Home = () => {
         })
     }
 
+
     return (
         <div className="home">
             {   
                 (data) ?
                 data.map(item => {
-                    console.log(item)
+                    // console.log(item)
                     return (
                         <div className="card home-card" key="item.postedBy._id">
                             <h5><Link to={item.postedBy._id !== state._id?"/profile/"+item.postedBy._id : "/profile" }>{item.postedBy.name}</Link></h5>
@@ -121,4 +122,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default SubscribePost;

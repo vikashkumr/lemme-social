@@ -10,7 +10,8 @@ const NavBar = () => {
             return [
                 <li key="1"><Link to="/createpost">CreatePost</Link></li>,
                 <li key="2"><Link to="/profile">Profile </Link></li>,
-                <li key="3">
+                <li key="3"><Link to="/followers">Followings Post </Link></li>,
+                <li key="4">
                     <button className="btn #c62828 red darken-3"
                         onClick={() => { 
                                 localStorage.clear()

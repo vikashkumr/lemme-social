@@ -60,6 +60,7 @@ router.put('/unlikes', (req, res) => {
 
 //view all post
 router.get('/allpost', checkAuth, (req, res) => {
+    console.log(req.userData);
     Post.find()
         .populate("postedBy","_id name")
         .populate("comments.postedBy","_id name")
@@ -72,10 +73,12 @@ router.get('/allpost', checkAuth, (req, res) => {
         });
 })
 
-//view post created by followed user
-router.get('/getsubpost', (req, res) => {
+//view post created by user I follow
+router.get('/getsubpost', checkAuth, (req, res) => {
+    console.log(req.userData);
     Post.find({postedBy: {$in:req.userData.following}})
-        .populate("author","_id name")
+        .populate("postedBy","_id name")
+        .populate("comments.postedBy","_id name")
         .exec()
         .then(posts => {
             return res.status(200).json({posts})

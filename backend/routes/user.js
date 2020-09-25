@@ -5,16 +5,16 @@ const checkAuth = require('../middleware/check-auth')
 
 
 //follow 
-router.put('/follow', (req, res) => {
+router.put('/follow', checkAuth, (req, res) => {
     User.findByIdAndUpdate(req.body.followId , {
         $push: {followers: req.userData._id}
     },{new: true}, (err, result) => {
         if(err) {
             res.status(422).json({error: err})
         }
-        User.findOneAndUpdate(req.userData._id, {
+        User.findByIdAndUpdate(req.userData._id, {
             $push: {following: req.body.followId}
-        }, {new: true}).then(result => {
+        }, {new: true}).select("-password").then(result => {
             res.json(result);
         }).catch(err => {
             return res.status(422).json({error: err})
@@ -25,16 +25,16 @@ router.put('/follow', (req, res) => {
 
 
 //unfollow 
-router.put('/unfollow', (req, res) => {
+router.put('/unfollow', checkAuth, (req, res) => {
     User.findByIdAndUpdate(req.body.unfollowId , {
         $pull: {followers: req.userData._id}
     },{new: true}, (err, result) => {
         if(err) {
             res.status(422).json({error: err})
         }
-        User.findOneAndUpdate(req.userData._id, {
+        User.findByIdAndUpdate(req.userData._id, {
             $pull: {following: req.body.unfollowId}
-        }, {new: true}).then(result => {
+        }, {new: true}).select("-password").then(result => {
             res.json(result);
         }).catch(err => {
             return res.status(422).json({error: err})
@@ -65,5 +65,13 @@ router.get('/:id', checkAuth, (req, res) => {
     })
 })
 
-
+router.put('/profilepic',checkAuth, (req, res) => {
+    console.log("profilePic:", req.body.profilePic);
+    User.findByIdAndUpdate(req.userData._id, {$set:{profilePic: req.body.profilePic}}, {new: true}, (err, result) => {
+        if(err) {
+            return res.status(422).json({error: "picture can not post"})
+        }
+        res.json(result)
+    })
+})
 module.exports = router;

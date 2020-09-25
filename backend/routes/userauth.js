@@ -66,9 +66,9 @@ router.post('/signin', (req, res) => {
               },process.env.JWT_KEY,{
                 expiresIn: '24h'
               })
-              const {_id, name, email} = user[0]
+              const {_id, name, email, followers, following} = user[0]
               return res.status(200).json({
-                token, user:{_id, name, email}
+                token, user:{_id, name, email, followers, following}
               });
             }
             return res.status(401).json({
