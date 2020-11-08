@@ -12,7 +12,6 @@ const Home = () => {
         })
         .then(res => res.json())
         .then(result => {
-            // console.log(result)
             setData(result.posts)
         })
     },[])
@@ -30,7 +29,6 @@ const Home = () => {
         })
         .then(res => res.json())
         .then(result => {
-            // console.log(result)
             const newData = data.map(item => {
                 if(item._id === result._id) {
                     return result;
@@ -59,7 +57,6 @@ const Home = () => {
         })
         .then(res => res.json())
         .then(result => {
-            // console.log(result)
             const newData = data.map(item => {
                 if(item._id === result._id) {
                     return result;
@@ -79,7 +76,6 @@ const Home = () => {
             {   
                 (data) ?
                 data.map(item => {
-                    console.log(item)
                     return (
                         <div className="card home-card" key="item.postedBy._id">
                             <h5><Link to={item.postedBy._id !== state._id?"/profile/"+item.postedBy._id : "/profile" }>{item.postedBy.name}</Link></h5>

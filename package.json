@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "cors": "^2.8.5",
     "jsonwebtoken": "^8.5.1",
+    "materialize-css": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-modal-image": "^2.5.0",

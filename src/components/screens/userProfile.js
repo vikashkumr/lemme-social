@@ -17,7 +17,6 @@ const Profile = () => {
     .then(res => res.json())
     .then(result => {
       setProfile(result)
-      // console.log(result)
     })
   },[])
 

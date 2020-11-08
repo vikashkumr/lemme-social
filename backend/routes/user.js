@@ -66,7 +66,6 @@ router.get('/:id', checkAuth, (req, res) => {
 })
 
 router.put('/profilepic',checkAuth, (req, res) => {
-    console.log("profilePic:", req.body.profilePic);
     User.findByIdAndUpdate(req.userData._id, {$set:{profilePic: req.body.profilePic}}, {new: true}, (err, result) => {
         if(err) {
             return res.status(422).json({error: "picture can not post"})
@@ -74,4 +73,17 @@ router.put('/profilepic',checkAuth, (req, res) => {
         res.json(result)
     })
 })
+
+
+router.post('/search', (req, res) => {
+    let userPattern = new RegExp("^" + req.body.query);
+    User.find({email:{$regex: userPattern}})
+    .select("_id email")
+    .then(user=> {
+        res.json({user})
+    }).catch(err => {
+        console.log(err)
+    })
+})
+
 module.exports = router;

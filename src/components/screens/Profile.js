@@ -18,7 +18,6 @@ const Profile = () => {
     .then(res => res.json())
     .then(result => {
       setPics(result.posts)
-      // console.log(result)
     })
   },[])
 
@@ -34,8 +33,6 @@ const Profile = () => {
       })
       .then(res => res.json())
       .then(data => {
-          console.log(data)
-          console.log(data.url)
           setPhoto(data.url)
           // localStorage.setItem("user", JSON.stringify({...state, profilePic: data.url}))
           // dispatch({type:"UPDATEPIC", payload: data.url})
@@ -50,7 +47,6 @@ const Profile = () => {
             })
           }).then(res => res.json())
           .then(result => {
-            console.log("result",result)
             localStorage.setItem("user", JSON.stringify({...state, profilePic: result.profilePic}))
             dispatch({type:"UPDATEPIC", payload: result.profilePic})
           })

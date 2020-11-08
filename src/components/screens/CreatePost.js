@@ -40,7 +40,6 @@ const CreatePost = () => {
         })
         .then(res => res.json())
         .then(data => {
-            // console.log(data)
             setPhoto(data.url)
         })
         .catch(err => {
