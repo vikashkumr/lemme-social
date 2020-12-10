@@ -17,7 +17,7 @@ const SubscribePost = () => {
     },[])
 
     const likePost = (id) => {
-        fetch('http://localhost:5000/post/likes', {
+        fetch('http://localhost:5000/post/like', {
             method:"put",
             headers: {
                 "Content-Type": "application/json",

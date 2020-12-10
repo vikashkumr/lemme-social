@@ -19,8 +19,15 @@ const SignUp = () => {
         .then(res => res.json())
         .then(data => {
             //check for error show toast
-            console.log('signup successful')
-            history.push('/signin')
+            if(data.error) {
+                console.log(data.error)
+                setName("");
+                setEmail("");
+                setPassword("");
+            } else {
+                console.log('signup successful')
+                history.push('/signin')
+            }
         })
         .catch(err => console.log(err))
     }
@@ -31,8 +38,8 @@ const SignUp = () => {
                 <div className="card-content white-text">
                 <span className="card-title">SignUp</span>
                 <input type="text" placeholder="name" value={name} onChange={(e) => setName(e.target.value)} />
-                <input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input type="text" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <div className="card-action">
                 <button className="btn waves-effect waves-light #64b5f6 blue darken-1"

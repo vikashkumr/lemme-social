@@ -19,8 +19,11 @@ const Login = () => {
         })
         .then(res => res.json())
         .then(data => {
+            console.log(data)
             if(data.error) {
                console.log(data.error)
+               setEmail("");
+               setPassword("");
             } else {
                 console.log("login successful")
                 localStorage.setItem("jwt", data.token)

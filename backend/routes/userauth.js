@@ -11,7 +11,7 @@ router.post('/signup', (req,res) => {
       .then((user) => {
         if (user.length >= 1) {
           return res.status(409).json({
-            message: "user exist",
+            error: "user exist"
           });
         } else {
           bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -51,13 +51,13 @@ router.post('/signin', (req, res) => {
     .then((user) => {
         if(user.length < 1) {
           return res.status(404).json({
-            message: 'user not found'
+            error: err
           })
         } else {
           bcrypt.compare(req.body.password, user[0].password, (err, result) => {
             if(err) {
               return res.status(401).json({
-                message: 'Auth failed'
+                error: err
               })
             }
             if(result) {

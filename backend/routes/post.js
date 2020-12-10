@@ -25,8 +25,8 @@ router.put('/comment', checkAuth, (req, res) => {
 })
 
 
-//likes
-router.put('/likes', checkAuth, (req, res) => {
+//like post
+router.put('/like', checkAuth, (req, res) => {
     Post.findByIdAndUpdate(req.body.postId, {
         $push:{likes: req.userData._id}
     }, {
@@ -40,9 +40,9 @@ router.put('/likes', checkAuth, (req, res) => {
     })
 })
 
-/*
-//unlikes
-router.put('/unlikes', (req, res) => {
+
+//unlike post
+router.put('/unlike', checkAuth, (req, res) => {
     Post.findByIdAndUpdate(req.body.postId, {
         $pull:{likes: req.userData._id}
     }, {
@@ -55,7 +55,7 @@ router.put('/unlikes', (req, res) => {
         }
     })
 })
-*/
+
 
 
 //view all post
@@ -132,7 +132,7 @@ router.post('/createpost', checkAuth, (req,res) => {
 
 //delete post
 
-router.delete('/deletepost/:postId', (req, res) => {
+router.delete('/deletepost/:postId', checkAuth, (req, res) => {
     Post.findOne({_id: req.params.postId})
         .populate("postedBy", "_id")
         .exec((err, post) => {
@@ -142,7 +142,7 @@ router.delete('/deletepost/:postId', (req, res) => {
             if(post.postedBy._id.toString() === req.userData._id.toString()) {
                 post.remove()
                 .then(result => {
-                    res.json({message: "success"})
+                    res.json(result)
                 })
                 .catch(err => {
                     console.log(err);

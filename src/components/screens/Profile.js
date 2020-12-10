@@ -5,7 +5,7 @@ const cloud = process.env.REACT_APP_CLOUD_NAME;
 const Profile = () => {
 
   const [image, setImage] = useState("")
-  const [photo, setPhoto] = useState("")
+  // const [photo, setPhoto] = useState("")
   const [mypics, setPics] = useState([])
   const {state, dispatch} = useContext(userContext)
 
@@ -33,7 +33,7 @@ const Profile = () => {
       })
       .then(res => res.json())
       .then(data => {
-          setPhoto(data.url)
+          // setPhoto(data.url)
           // localStorage.setItem("user", JSON.stringify({...state, profilePic: data.url}))
           // dispatch({type:"UPDATEPIC", payload: data.url})
           fetch('http://localhost:5000/user/profilepic', {
@@ -72,7 +72,7 @@ const Profile = () => {
         }}>
         <div>
           <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
-            src={(state && state.profilePic != undefined) ? state.profilePic : "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"}
+            src={(state && state.profilePic !== undefined) ? state.profilePic : "https://www.pngkey.com/png/detail/52-522921_kathrine-vangen-profile-pic-empty-png.png"}
             alt="profile pic"
             />
         </div>
